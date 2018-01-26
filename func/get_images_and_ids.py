@@ -15,17 +15,20 @@ from PIL import Image
 MAIN 
 -----------------------------------------------------------------------------"""
 def get_images_and_ids(path):
-    detector = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+    detector = cv2.CascadeClassifier("../haar_cascade/haarcascade_frontalface_default.xml")
     # get the path of all the files in the folder
     # os.path.listdir get name of file or folder and os.path.join get path of them
-    image_paths = [os.path.join(path, f) for f in os.listdir(path)]
+    user_paths = [os.path.join(path, folder) for folder in os.listdir(path)]
+    image_paths = []
+    for user_path in user_paths:
+        user_image_paths = [os.path.join(user_path, image) for image in os.listdir(user_path)]
+        image_paths.extend(user_image_paths)
 
     # create empth face list
     face_samples = []
 
     # create empty ID list
     ids = []
-
     # now looping through all the image paths and loading the Ids and the images
     for image_path in image_paths:
         # ignore if the file does not have jpg extension :
