@@ -15,16 +15,20 @@ from PIL import Image
 MAIN 
 -----------------------------------------------------------------------------"""
 def get_images_and_ids(path):
-    detector = cv2.CascadeClassifier("../haar_cascade/haarcascade_frontalface_default.xml")
+    detector = cv2.CascadeClassifier("haar_cascade/haarcascade_frontalface_default.xml")
+
     # get the path of all the files in the folder
     # os.path.listdir get name of file or folder and os.path.join get path of them
     user_paths = [os.path.join(path, folder) for folder in os.listdir(path)]
+
+    # create empty image-path list
     image_paths = []
+
     for user_path in user_paths:
         user_image_paths = [os.path.join(user_path, image) for image in os.listdir(user_path)]
         image_paths.extend(user_image_paths)
 
-    # create empth face list
+    # create empty face list
     face_samples = []
 
     # create empty ID list
@@ -43,7 +47,7 @@ def get_images_and_ids(path):
         imageNp = np.array(pilImage,'uint8')
 
         # getting the Id from the image
-        id = os.path.split(image_path)[0].split("/")[2]
+        id = os.path.split(image_path)[0].split("/")[1]
         id = int(id.split("_")[1])
 
         # extract the face from the training image sample

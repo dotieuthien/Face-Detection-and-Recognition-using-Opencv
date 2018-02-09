@@ -7,33 +7,34 @@ Date: 23/1/2018
 IMPORT 
 -----------------------------------------------------------------------------"""
 import cv2
+import os
+import numpy as np
+from func.create_dataset import create_dataset
+from func.training import training
+from func.detect_faces import detect_faces
 
 """-----------------------------------------------------------------------------
 MAIN 
 -----------------------------------------------------------------------------"""
-recognizer = cv2.face_LBPHFaceRecognizer.create()
-recognizer.read('training/training.yml')
-faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-camera = cv2.VideoCapture(0)
-font = cv2.FONT_HERSHEY_SIMPLEX
-while True:
-    ret, image = camera.read()
-    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-    faces = faceCascade.detectMultiScale(gray, 1.3, 5)
-    for(x, y, w, h) in faces:
-        cv2.rectangle(image,(x, y),(x+w, y+h),(225, 0, 0), 2)
-        id, conf = recognizer.predict(gray[y:y+h, x:x+w])
-        if(conf > 50):
-            if(id == 1):
-                id = "Boss"
-            if(id == 2):
-                id = "Assistant"
+print("""Selecting mode:
+1. Creating new data 
+2. Detecting faces 
+3. Training data """)
 
-            cv2.putText(image , id, (x, y+h), font, 1, (0, 255, 255), 2)
+mode = int(input("Enter a number correspond with a mode: "))
 
-    cv2.imshow('Face',image)
-    if cv2.waitKey(10) & 0xFF == ord('q'):
-        break
+if mode == 1:
+    print("Creating new data")
+    num_users = [os.path.join("dataset", folder) for folder in os.listdir("dataset")]
+    id = np.shape(num_users)[0] + 1
+    create_dataset(id)
 
-camera.release()
-cv2.destroyAllWindows()
+elif mode == 2:
+    print("Detecting faces")
+    detect_faces()
+
+elif mode == 3:
+    print("Training")
+    training()
+
+

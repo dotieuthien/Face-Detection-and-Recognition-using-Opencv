@@ -15,6 +15,6 @@ MAIN
 -----------------------------------------------------------------------------"""
 def training():
     recognizer = cv2.face_LBPHFaceRecognizer.create()
-    faces, ids = get_images_and_ids("../dataset/")
+    faces, ids = get_images_and_ids("dataset/")
     recognizer.train(faces, np.array(ids))
     recognizer.save('training/training.yml')
