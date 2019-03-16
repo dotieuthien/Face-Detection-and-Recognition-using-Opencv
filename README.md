@@ -1,2 +1,2 @@
 # Face-Detection-and-Recognition-using-Opencv
-Naive project for Face Recognition using Opencv lib 
+This project use Haar feature for face detection and Local Binary Pattern for face recognition
